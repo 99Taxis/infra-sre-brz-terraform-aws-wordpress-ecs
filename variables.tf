@@ -25,7 +25,7 @@ variable "ecs_service_name" {
 variable "ecs_service_desired_count" {
   description = "Number of tasks to have running"
   type        = number
-  default     = 2
+  default     = 1
 }
 
 variable "ecs_service_subnet_ids" {
