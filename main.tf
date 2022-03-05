@@ -30,30 +30,14 @@ resource "aws_efs_mount_target" "wordpress" {
   security_groups = local.efs_service_security_group_ids
 }
 
-resource "aws_efs_access_point" "wordpress_plugins" {
+resource "aws_efs_access_point" "wordpress_wp_content" {
   file_system_id = aws_efs_file_system.wordpress.id
   posix_user {
     gid = 33
     uid = 33
   }
   root_directory {
-    path = "/plugins"
-    creation_info {
-      owner_gid   = 33
-      owner_uid   = 33
-      permissions = 755
-    }
-  }
-}
-
-resource "aws_efs_access_point" "wordpress_themes" {
-  file_system_id = aws_efs_file_system.wordpress.id
-  posix_user {
-    gid = 33
-    uid = 33
-  }
-  root_directory {
-    path = "/themes"
+    path = "/"
     creation_info {
       owner_gid   = 33
       owner_uid   = 33
@@ -96,24 +80,13 @@ resource "aws_ecs_task_definition" "wordpress" {
   memory                   = var.ecs_task_definition_memory
   execution_role_arn       = aws_iam_role.ecs_task_role.arn
   volume {
-    name = "efs-themes"
+    name = "efs-wp-content"
     efs_volume_configuration {
       file_system_id     = aws_efs_file_system.wordpress.id
       root_directory     = "/"
       transit_encryption = "ENABLED"
       authorization_config {
-        access_point_id = aws_efs_access_point.wordpress_themes.id
-      }
-    }
-  }
-  volume {
-    name = "efs-plugins"
-    efs_volume_configuration {
-      file_system_id     = aws_efs_file_system.wordpress.id
-      root_directory     = "/"
-      transit_encryption = "ENABLED"
-      authorization_config {
-        access_point_id = aws_efs_access_point.wordpress_plugins.id
+        access_point_id = aws_efs_access_point.wordpress_wp_content.id
       }
     }
   }

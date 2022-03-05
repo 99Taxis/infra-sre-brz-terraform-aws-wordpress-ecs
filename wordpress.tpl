@@ -37,13 +37,8 @@
     "mountPoints": [
       {
         "readOnly": false,
-        "containerPath": "/var/www/html/wp-content/themes",
-        "sourceVolume": "efs-themes"
-      },
-      {
-        "readOnly": false,
-        "containerPath": "/var/www/html/wp-content/plugins",
-        "sourceVolume": "efs-plugins"
+        "containerPath": "/var/www/html/wp-content",
+        "sourceVolume": "efs-wp-content"
       }
     ]
   }
