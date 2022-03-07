@@ -45,7 +45,7 @@
         "containerPath": "/var/www/html/wp-content/plugins",
         "sourceVolume": "efs-plugins"
       },
-            {
+      {
         "readOnly": false,
         "containerPath": "/var/www/html/wp-content/uploads",
         "sourceVolume": "efs-uploads"
