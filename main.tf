@@ -62,6 +62,22 @@ resource "aws_efs_access_point" "wordpress_themes" {
   }
 }
 
+resource "aws_efs_access_point" "wordpress_uploads" {
+  file_system_id = aws_efs_file_system.wordpress.id
+  posix_user {
+    gid = 33
+    uid = 33
+  }
+  root_directory {
+    path = "/uploads"
+    creation_info {
+      owner_gid   = 33
+      owner_uid   = 33
+      permissions = 755
+    }
+  }
+}
+
 resource "aws_cloudwatch_log_group" "wordpress" {
   name              = var.ecs_cloudwatch_logs_group_name
   retention_in_days = 14
@@ -114,6 +130,17 @@ resource "aws_ecs_task_definition" "wordpress" {
       transit_encryption = "ENABLED"
       authorization_config {
         access_point_id = aws_efs_access_point.wordpress_plugins.id
+      }
+    }
+  }
+  volume {
+    name = "efs-uploads"
+    efs_volume_configuration {
+      file_system_id     = aws_efs_file_system.wordpress.id
+      root_directory     = "/"
+      transit_encryption = "ENABLED"
+      authorization_config {
+        access_point_id = aws_efs_access_point.wordpress_uploads.id
       }
     }
   }
