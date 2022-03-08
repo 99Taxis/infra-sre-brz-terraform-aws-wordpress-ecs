@@ -210,7 +210,13 @@ resource "aws_lb_target_group" "wordpress_http" {
   slow_start           = 0
   vpc_id      = data.aws_subnet.ecs_service_subnet_ids.vpc_id
   health_check {
-    matcher = "200-499"
+    healthy_threshold   = 3
+    unhealthy_threshold = 10
+    timeout             = 5
+    interval            = 10
+    path                = "/"
+    port                = 9000
+    matcher             = "200-499"
   }
   stickiness {
     type            = "lb_cookie"
