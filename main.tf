@@ -163,7 +163,7 @@ resource "aws_ecs_service" "wordpress" {
   load_balancer {
     target_group_arn = aws_lb_target_group.wordpress_http.arn
     container_name   = var.ecs_service_container_name
-    container_port   = "80"
+    container_port   = "9000"
   }
   tags = var.tags
 }
@@ -203,7 +203,7 @@ resource "aws_lb_listener" "wordpress_https" {
 
 resource "aws_lb_target_group" "wordpress_http" {
   name        = var.lb_target_group_http
-  port        = 80
+  port        = 9000
   protocol    = "HTTP"
   target_type = "ip"
   deregistration_delay = 120
