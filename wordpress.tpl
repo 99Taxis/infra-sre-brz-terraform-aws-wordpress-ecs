@@ -1,7 +1,7 @@
 [
   {
     "name": "${ecs_service_container_name}",
-    "image": "wordpress:php7.4-apache",
+    "image": "wordpress:php8.1-apache",
     "portMappings": [
       {
         "containerPort": 80,
