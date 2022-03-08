@@ -1,10 +1,10 @@
 [
   {
     "name": "${ecs_service_container_name}",
-    "image": "wordpress:5-php8.1-fpm-alpine",
+    "image": "wordpress:php8.1-apache",
     "portMappings": [
       {
-        "containerPort": 9000,
+        "containerPort": 80,
         "protocol": "tcp"
       }
     ],
@@ -24,18 +24,6 @@
       {
         "name": "WORDPRESS_DB_NAME",
         "value": "${wordpress_db_name}"
-      },
-      {
-        "name": "TAR_OPTIONS",
-        "value": "--no-same-owner"
-      },
-      {
-        "name": "APACHE_RUN_USER",
-        "value": "www-data"
-      },
-      {
-        "name": "APACHE_RUN_GROUP",
-        "value": "www-data"
       }
     ],
     "logConfiguration": { 
