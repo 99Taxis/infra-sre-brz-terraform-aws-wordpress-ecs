@@ -24,6 +24,10 @@
       {
         "name": "WORDPRESS_DB_NAME",
         "value": "${wordpress_db_name}"
+      },
+      {
+        "name": "TAR_OPTIONS",
+        "value": "--no-same-owner"
       }
     ],
     "logConfiguration": { 
