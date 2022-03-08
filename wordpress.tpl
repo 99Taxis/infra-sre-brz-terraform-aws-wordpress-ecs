@@ -30,11 +30,11 @@
         "value": "--no-same-owner"
       },
       {
-        "name": "APACHE_RUN_USER"
+        "name": "APACHE_RUN_USER",
         "value": "www-data"
       },
       {
-        "name": "APACHE_RUN_GROUP"
+        "name": "APACHE_RUN_GROUP",
         "value": "www-data"
       }
     ],
