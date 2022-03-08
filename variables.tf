@@ -243,3 +243,15 @@ locals {
   lb_security_group_ids          = length(var.security_group_ids.lb) == 0 ? aws_security_group.lb_service.*.id : var.security_group_ids.lb
   rds_cluster_security_group_ids = length(var.security_group_ids.rds) == 0 ? aws_security_group.rds_cluster.*.id : var.security_group_ids.rds
 }
+
+variable "app_name" {
+  description = "Name of the application"
+  type        = string
+  default     = "Application_Name"
+}
+
+variable "app_env" {
+  description = "Name of the application"
+  type        = string
+  default     = "Application_Environment"
+}
