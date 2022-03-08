@@ -209,7 +209,7 @@ variable "rds_cluster_instance_count" {
 variable "rds_cluster_instance_instance_class" {
   description = "Database instance type"
   type        = string
-  default     = "db.t3.small"
+  default     = "db.t3.medium"
 }
 
 variable "secrets_manager_name" {
