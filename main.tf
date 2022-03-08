@@ -152,7 +152,7 @@ resource "aws_ecs_service" "wordpress" {
   cluster          = aws_ecs_cluster.wordpress.arn
   task_definition  = aws_ecs_task_definition.wordpress.arn
   desired_count    = var.ecs_service_desired_count
-  launch_type      = "EC2"
+  launch_type      = "FARGATE"
   platform_version = "1.4.0"
   propagate_tags   = "SERVICE"
   network_configuration {
