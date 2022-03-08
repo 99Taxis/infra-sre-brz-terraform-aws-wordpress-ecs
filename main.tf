@@ -206,13 +206,15 @@ resource "aws_lb_target_group" "wordpress_http" {
   port        = 80
   protocol    = "HTTP"
   target_type = "ip"
+  deregistration_delay = 60
+  slow_start           = 30
   vpc_id      = data.aws_subnet.ecs_service_subnet_ids.vpc_id
   health_check {
     matcher = "200-499"
   }
   stickiness {
     type            = "lb_cookie"
-    cookie_duration = 86400
+    cookie_duration = 1200
     enabled         = true
   }
   tags = var.tags
