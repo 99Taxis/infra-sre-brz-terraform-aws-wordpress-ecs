@@ -167,7 +167,7 @@ variable "rds_cluster_enable_cloudwatch_logs_export" {
 variable "rds_cluster_engine_version" {
   description = "Engine version to use for the cluster"
   type        = string
-  default     = "5.7.mysql_aurora.2.07.2"
+  default     = "5.7.mysql_aurora.2.10.2"
 }
 
 variable "rds_cluster_master_username" {
