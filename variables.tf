@@ -167,7 +167,7 @@ variable "rds_cluster_enable_cloudwatch_logs_export" {
 variable "rds_cluster_engine_version" {
   description = "Engine version to use for the cluster"
   type        = string
-  default     = ""
+  default     = "5.7.mysql_aurora.2.10.2"
 }
 
 variable "rds_cluster_master_username" {
@@ -209,7 +209,7 @@ variable "rds_cluster_instance_count" {
 variable "rds_cluster_instance_instance_class" {
   description = "Database instance type"
   type        = string
-  default     = "db.t3.small"
+  default     = "db.t3.medium"
 }
 
 variable "secrets_manager_name" {
@@ -242,4 +242,16 @@ locals {
   ecs_service_security_group_ids = length(var.security_group_ids.ecs) == 0 ? aws_security_group.ecs_service.*.id : var.security_group_ids.ecs
   lb_security_group_ids          = length(var.security_group_ids.lb) == 0 ? aws_security_group.lb_service.*.id : var.security_group_ids.lb
   rds_cluster_security_group_ids = length(var.security_group_ids.rds) == 0 ? aws_security_group.rds_cluster.*.id : var.security_group_ids.rds
+}
+
+variable "app_name" {
+  description = "Name of the application"
+  type        = string
+  default     = "Application_Name"
+}
+
+variable "app_env" {
+  description = "Name of the application"
+  type        = string
+  default     = "Application_Environment"
 }

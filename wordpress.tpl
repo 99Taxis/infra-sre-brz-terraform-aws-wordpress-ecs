@@ -1,7 +1,7 @@
 [
   {
     "name": "${ecs_service_container_name}",
-    "image": "wordpress:latest",
+    "image": "wordpress:php8.1-apache",
     "portMappings": [
       {
         "containerPort": 80,
@@ -44,6 +44,11 @@
         "readOnly": false,
         "containerPath": "/var/www/html/wp-content/plugins",
         "sourceVolume": "efs-plugins"
+      },
+      {
+        "readOnly": false,
+        "containerPath": "/var/www/html/wp-content/uploads",
+        "sourceVolume": "efs-uploads"
       }
     ]
   }

@@ -62,6 +62,22 @@ resource "aws_efs_access_point" "wordpress_themes" {
   }
 }
 
+resource "aws_efs_access_point" "wordpress_uploads" {
+  file_system_id = aws_efs_file_system.wordpress.id
+  posix_user {
+    gid = 33
+    uid = 33
+  }
+  root_directory {
+    path = "/uploads"
+    creation_info {
+      owner_gid   = 33
+      owner_uid   = 33
+      permissions = 755
+    }
+  }
+}
+
 resource "aws_cloudwatch_log_group" "wordpress" {
   name              = var.ecs_cloudwatch_logs_group_name
   retention_in_days = 14
@@ -114,6 +130,17 @@ resource "aws_ecs_task_definition" "wordpress" {
       transit_encryption = "ENABLED"
       authorization_config {
         access_point_id = aws_efs_access_point.wordpress_plugins.id
+      }
+    }
+  }
+  volume {
+    name = "efs-uploads"
+    efs_volume_configuration {
+      file_system_id     = aws_efs_file_system.wordpress.id
+      root_directory     = "/"
+      transit_encryption = "ENABLED"
+      authorization_config {
+        access_point_id = aws_efs_access_point.wordpress_uploads.id
       }
     }
   }
@@ -179,13 +206,21 @@ resource "aws_lb_target_group" "wordpress_http" {
   port        = 80
   protocol    = "HTTP"
   target_type = "ip"
+  deregistration_delay = 120
+  slow_start           = 0
   vpc_id      = data.aws_subnet.ecs_service_subnet_ids.vpc_id
   health_check {
-    matcher = "200-499"
+    healthy_threshold   = 3
+    unhealthy_threshold = 10
+    timeout             = 5
+    interval            = 10
+    path                = "/"
+    port                = 80
+    matcher             = "200-499"
   }
   stickiness {
     type            = "lb_cookie"
-    cookie_duration = 86400
+    cookie_duration = 1200
     enabled         = true
   }
   tags = var.tags
